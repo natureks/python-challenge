@@ -40,7 +40,6 @@ with open(budget_csv, 'r') as csvfile:
     rowCount = csvreader.line_num - 1
     average=round(totalChangeInProfit/(rowCount-1), 2)
 
-
 with open(summary_filename, 'w') as summary_file:
     output_str(summary_file, "Financial Analysis")
     output_str(summary_file, "----------------------------")
@@ -49,10 +48,6 @@ with open(summary_filename, 'w') as summary_file:
     output_str(summary_file, f"Average  Change : {average}")
     output_str(summary_file, f"Greatest Increase in Profits : {maxProfitChange}")
     output_str(summary_file, f"Greatest Decrease in Profits : {minProfitChange}")
-    
-
-
-# In[ ]:
 
 
 
