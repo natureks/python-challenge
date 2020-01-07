@@ -17,6 +17,8 @@ with open(election_data_file, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     votes = []
     candidates = {}
+    winner_name = ""
+    winner_vote = 0
     
     # Loop through the data
     for row in csvreader:
@@ -27,24 +29,20 @@ with open(election_data_file, 'r') as csvfile:
 
     rowCount = csvreader.line_num - 1
     
-    for candidate in candidates.keys():
-        candidates[candidate] = votes.count(candidate)
-
 with open(election_summary_file, 'w') as summary_file:
     output_str(summary_file, "----------------------------")
     output_str(summary_file, "Election Results")
     output_str(summary_file, "----------------------------")
     output_str(summary_file, f"Total Votes: {rowCount}")
     output_str(summary_file, "----------------------------")
-    winner = ""
-    winner_vote = 0
-    for candidate, vote in candidates.items():
+    for candidate in candidates.keys():
+        vote = votes.count(candidate)
         if vote > winner_vote:
             winner_vote = vote
-            winner = candidate
+            winner_name = candidate
         percent = round(vote*100/rowCount, 3)
         output_str(summary_file, f"{candidate}: {percent}% ({vote})")
         
     output_str(summary_file, "----------------------------")
-    output_str(summary_file, f"Winner : {winner}")
+    output_str(summary_file, f"Winner : {winner_name}")
     output_str(summary_file, "----------------------------")
