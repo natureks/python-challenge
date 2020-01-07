@@ -16,7 +16,6 @@ with open(budget_csv, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     
     header = next(csvreader)
-    rowCount = 0
     total = 0
     prevProfit = 0
     maxProfitChange = 0
@@ -27,7 +26,6 @@ with open(budget_csv, 'r') as csvfile:
     for row in csvreader:
         if csvreader.line_num == 1:
             continue
-        rowCount = rowCount + 1
         currentProfit = int(row[1])
         total = total + currentProfit
         changeInProfit = currentProfit - prevProfit
@@ -39,6 +37,7 @@ with open(budget_csv, 'r') as csvfile:
             minProfitChange = changeInProfit
         prevProfit = currentProfit
     
+    rowCount = csvreader.line_num - 1
     average=round(totalChangeInProfit/(rowCount-1), 2)
 
 
