@@ -21,6 +21,8 @@ with open(budget_csv, 'r') as csvfile:
     maxProfitChange = 0
     minProfitChange = 0
     totalChangeInProfit = 0
+    maxProfitDate = ""
+    minProfitDate = ""
     
     # Loop through the data
     for row in csvreader:
@@ -33,22 +35,25 @@ with open(budget_csv, 'r') as csvfile:
            totalChangeInProfit = totalChangeInProfit + changeInProfit
         if changeInProfit > maxProfitChange:
             maxProfitChange = changeInProfit
+            maxProfitDate = row[0]
         elif changeInProfit < minProfitChange:
             minProfitChange = changeInProfit
+            minProfitDate = row[0]
         prevProfit = currentProfit
     
     rowCount = csvreader.line_num - 1
     average=round(totalChangeInProfit/(rowCount-1), 2)
 
+summary_filename = os.path.join('.', 'Resources', 'budget_data_summary.txt')
 with open(summary_filename, 'w') as summary_file:
     output_str(summary_file, "Financial Analysis")
     output_str(summary_file, "----------------------------")
-    output_str(summary_file, f"Total Months: {rowCount}")
-    output_str(summary_file, f"Total : {total}")
-    output_str(summary_file, f"Average  Change : {average}")
-    output_str(summary_file, f"Greatest Increase in Profits : {maxProfitChange}")
-    output_str(summary_file, f"Greatest Decrease in Profits : {minProfitChange}")
+    output_str(summary_file, "Total Months: {0:.0f}".format(rowCount))
+    output_str(summary_file, "Total : ${0:,.2f}".format(total))
 
+    output_str(summary_file, "Average  Change : ${0:,.2f}".format(average))
+    output_str(summary_file, f"Greatest Increase in Profits: {maxProfitDate} ${maxProfitChange}")
+    output_str(summary_file, f"Greatest Decrease in Profits: {minProfitDate} ${minProfitChange}")
 
 
 
